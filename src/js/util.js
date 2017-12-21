@@ -7,6 +7,12 @@ function generateUUIDv4() {
 }
 
 function invertColor(hex) {
+    function padZero(str, len) {
+        len = len || 2;
+        var zeros = new Array(len).join('0');
+        return (zeros + str).slice(-len);
+    }    
+
     if (hex.indexOf('#') === 0) {
         hex = hex.slice(1);
     }
@@ -25,8 +31,3 @@ function invertColor(hex) {
     return '#' + padZero(r) + padZero(g) + padZero(b);
 }
 
-function padZero(str, len) {
-    len = len || 2;
-    var zeros = new Array(len).join('0');
-    return (zeros + str).slice(-len);
-}
