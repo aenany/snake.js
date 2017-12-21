@@ -1,7 +1,7 @@
 function Renderer() {
 	this.canvas = document.getElementById("snakeCanvas");
 	this.ctx = this.canvas.getContext("2d");
-	
+
 	this.fontHeight = 15;
 	this.fontType = "Arial";
 
@@ -15,11 +15,11 @@ function Renderer() {
 	this.canvasElements = {};
 }
 
-Renderer.prototype.fillEntireCanvas = function(color) {
+Renderer.prototype.fillEntireCanvas = function (color) {
 	this.canvasBackgroundColor = color;
 	this.ctx.fillStyle = color;
 
-    gameRenderer.ctx.fillRect(0,0, this.canvasWidth, this.canvasHeight);
+	gameRenderer.ctx.fillRect(0, 0, this.canvasWidth, this.canvasHeight);
 };
 
 Renderer.prototype.getBackgroundColor = function () {
@@ -35,7 +35,7 @@ Renderer.prototype.setBackgroundColor = function (color) {
 
 Renderer.prototype.drawText = function (text, xCoord, yCoord) {
 	var currentRenderer = this;
-	
+
 	this.ctx.fillText(text, xCoord, yCoord);
 
 	var elementUuid = generateUUIDv4();
@@ -53,9 +53,29 @@ Renderer.prototype.drawText = function (text, xCoord, yCoord) {
 
 };
 
+Renderer.prototype.drawRectangle = function (xCoord, yCoord, width, height) {
+	var currentRenderer = this;
+
+	this.ctx.fillRect(xCoord, yCoord, width, height);
+
+	var dimensions = {
+		width: width,
+		height: height,
+		xCoord: xCoord,
+		yCoord: yCoord
+	};
+
+	var elementUuid = generateUUIDv4();
+
+	this.canvasElements[elementUuid] = dimensions;
+
+	return elementUuid;
+
+};
+
 Renderer.prototype.clearElement = function (elementUuid) {
-	
-	if(this.canvasElements[elementUuid]){
+
+	if (this.canvasElements[elementUuid]) {
 		var currentElement = this.canvasElements[elementUuid];
 		this.ctx.fillStyle = this.canvasBackgroundColor;
 
@@ -63,6 +83,6 @@ Renderer.prototype.clearElement = function (elementUuid) {
 
 		delete this.canvasElements[elementUuid];
 	}
-	
+
 	return elementUuid;
 };

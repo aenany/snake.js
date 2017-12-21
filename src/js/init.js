@@ -16,4 +16,3 @@ window.onload = function () {
     gameRenderer = new Renderer();
     gameState = setInterval(game, 1000 / 15);
 };
-
