@@ -1,6 +1,7 @@
 # Snake Game
 
-<img src="./src/img/snake-js.png" style="width: 25%; height: 25%"/>
+<img src="./src/img/snake-js.png" width="222" height="267" />
+<img src="./src/img/screen1.png" />
 
 Features:
 
