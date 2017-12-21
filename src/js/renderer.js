@@ -57,9 +57,9 @@ Renderer.prototype.clearElement = function (elementUuid) {
 	
 	if(this.canvasElements[elementUuid]){
 		var currentElement = this.canvasElements[elementUuid];
+		this.ctx.fillStyle = this.canvasBackgroundColor;
 
 		this.ctx.fillRect(currentElement.xCoord, currentElement.yCoord, currentElement.width, currentElement.height);
-		this.ctx.fillStyle = this.canvasBackgroundColor;
 
 		delete this.canvasElements[elementUuid];
 	}
