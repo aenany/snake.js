@@ -34,53 +34,55 @@ Renderer.prototype.setBackgroundColor = function (color) {
 	return this.canvasBackgroundColor;
 };
 
-Renderer.prototype.drawScore = function(score) {
-	this.ctx.fillStyle = "gold";
-	this.ctx.fillText('SCORE: ' + score, this.canvasWidth - (this.canvasWidth), this.canvasHeight - (this.canvasHeight - this.fontHeight));
-};
 
-Renderer.prototype.drawSnake = function(x, y, w, h) {
-	gameRenderer.ctx.fillStyle = "lime";
-	gameRenderer.ctx.fillRect(x, y, w, h);
-};
-
-Renderer.prototype.drawText = function (text, xCoord, yCoord) {
+Renderer.prototype.drawText = function (text, color, xCoord, yCoord, store) {
 	var currentRenderer = this;
+
+	this.ctx.fillStyle = color;
 
 	this.ctx.fillText(text, xCoord, yCoord);
 
-	var elementUuid = generateUUIDv4();
+	if (store) {
 
-	var dimensions = {
-		width: parseFloat(this.ctx.measureText(text).width),
-		height: this.fontHeight,
-		xCoord: xCoord,
-		yCoord: yCoord
-	};
+		var elementUuid = generateUUIDv4();
 
-	this.canvasElements[elementUuid] = dimensions;
+		var dimensions = {
+			width: parseFloat(this.ctx.measureText(text).width),
+			height: this.fontHeight,
+			xCoord: xCoord,
+			yCoord: yCoord
+		};
 
-	return elementUuid;
+		this.canvasElements[elementUuid] = dimensions;
+
+		return elementUuid;
+
+	}
 
 };
 
-Renderer.prototype.drawRectangle = function (xCoord, yCoord, width, height) {
+Renderer.prototype.drawRectangle = function (color, xCoord, yCoord, width, height, store) {
 	var currentRenderer = this;
+
+	this.ctx.fillStyle = color;
 
 	this.ctx.fillRect(xCoord, yCoord, width, height);
 
-	var dimensions = {
-		width: width,
-		height: height,
-		xCoord: xCoord,
-		yCoord: yCoord
-	};
+	if (store) {
+		var dimensions = {
+			width: width,
+			height: height,
+			xCoord: xCoord,
+			yCoord: yCoord
+		};
 
-	var elementUuid = generateUUIDv4();
+		var elementUuid = generateUUIDv4();
 
-	this.canvasElements[elementUuid] = dimensions;
+		this.canvasElements[elementUuid] = dimensions;
 
-	return elementUuid;
+		return elementUuid;
+
+	}
 
 };
 

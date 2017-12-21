@@ -17,14 +17,13 @@ function Game() {
 
     gameRenderer.setBackgroundColor('#000000');
 
-    gameRenderer.fillEntireCanvas("#000000");
-
-    
+    gameRenderer.fillEntireCanvas("#000000");    
     
     for (var i = 0; i < trail.length; i++) {
-        gameRenderer.drawSnake(trail[i].x * gs, trail[i].y * gs, gs - 2, gs - 2);
+        gameRenderer.drawRectangle('lime', trail[i].x * gs, trail[i].y * gs, gs - 2, gs - 2, false);
         if (trail[i].x == px && trail[i].y == py) {
             tail = 5;
+            gameScore = 0;
         }
     }
 
@@ -41,11 +40,11 @@ function Game() {
         tail++;
         ax = Math.floor(Math.random() * tc);
         ay = Math.floor(Math.random() * tc);
-        
+        gameScore += 100;
     }
 
-    gameRenderer.drawScore(tail);
+    
+    gameRenderer.drawText('SCORE: ' + gameScore, 'gold', gameRenderer.canvasWidth - (gameRenderer.canvasWidth), gameRenderer.canvasHeight - (gameRenderer.canvasHeight - gameRenderer.fontHeight));
 
-    gameRenderer.ctx.fillStyle = "red";
-    gameRenderer.ctx.fillRect(ax * gs, ay * gs, gs - 2, gs - 2);
+    gameRenderer.drawRectangle('red', ax * gs, ay * gs, gs - 2, gs - 2, false);
 }

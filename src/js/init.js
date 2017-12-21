@@ -1,6 +1,7 @@
 var gameState = null;
 var gameRenderer = null;
 var gameFPS = 1000 / 15;
+var gameScore = 0;
 
 var px = py = 10;
 var gs = tc = 20;
