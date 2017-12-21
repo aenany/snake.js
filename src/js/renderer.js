@@ -34,6 +34,16 @@ Renderer.prototype.setBackgroundColor = function (color) {
 	return this.canvasBackgroundColor;
 };
 
+Renderer.prototype.drawScore = function(score) {
+	this.ctx.fillStyle = "gold";
+	this.ctx.fillText('SCORE: ' + score, this.canvasWidth - (this.canvasWidth), this.canvasHeight - (this.canvasHeight - this.fontHeight));
+};
+
+Renderer.prototype.drawSnake = function(x, y, w, h) {
+	gameRenderer.ctx.fillStyle = "lime";
+	gameRenderer.ctx.fillRect(x, y, w, h);
+};
+
 Renderer.prototype.drawText = function (text, xCoord, yCoord) {
 	var currentRenderer = this;
 

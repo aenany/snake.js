@@ -23,7 +23,7 @@ function KeyboardManager(evt) {
                 gameRenderer.pauseTextId = gameRenderer.drawText('Game Paused', gameRenderer.canvasWidth - 100, gameRenderer.canvasHeight - 10);
                 gameState = null;
             } else {
-                gameState = setInterval(game, 1000 / 15);
+                gameState = setInterval(Game, gameFPS);
                 gameRenderer.clearElement(gameRenderer.pauseTextId);
             }
 

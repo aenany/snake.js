@@ -19,10 +19,10 @@ function Game() {
 
     gameRenderer.fillEntireCanvas("#000000");
 
-    gameRenderer.ctx.fillStyle = "lime";
+    
     
     for (var i = 0; i < trail.length; i++) {
-        gameRenderer.ctx.fillRect(trail[i].x * gs, trail[i].y * gs, gs - 2, gs - 2);
+        gameRenderer.drawSnake(trail[i].x * gs, trail[i].y * gs, gs - 2, gs - 2);
         if (trail[i].x == px && trail[i].y == py) {
             tail = 5;
         }
@@ -41,10 +41,11 @@ function Game() {
         tail++;
         ax = Math.floor(Math.random() * tc);
         ay = Math.floor(Math.random() * tc);
+        
     }
+
+    gameRenderer.drawScore(tail);
 
     gameRenderer.ctx.fillStyle = "red";
     gameRenderer.ctx.fillRect(ax * gs, ay * gs, gs - 2, gs - 2);
 }
-
-
