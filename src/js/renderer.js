@@ -41,7 +41,7 @@ Renderer.prototype.drawText = function (text, xCoord, yCoord) {
 	var elementUuid = generateUUIDv4();
 
 	var dimensions = {
-		width: this.ctx.measureText(text),
+		width: parseFloat(this.ctx.measureText(text).width),
 		height: this.fontHeight,
 		xCoord: xCoord,
 		yCoord: yCoord
@@ -54,14 +54,15 @@ Renderer.prototype.drawText = function (text, xCoord, yCoord) {
 };
 
 Renderer.prototype.clearElement = function (elementUuid) {
-	for(var element in this.canvasElements) {
-		var currentElement = this.canvasElements[element];
+	
+	if(this.canvasElements[elementUuid]){
+		var currentElement = this.canvasElements[elementUuid];
 
-		if(elementUuid === element){
-			this.ctx.fillStyle = this.canvasBackgroundColor;
-			this.ctx.fillRect(currentElement.xCoord, currentElement.yCoord, currentElement.width, currentElement.height);
-			delete this.canvasElements[currentElement];
-		}
-		
+		this.ctx.fillRect(currentElement.xCoord, currentElement.yCoord, currentElement.width, currentElement.height);
+		this.ctx.fillStyle = this.canvasBackgroundColor;
+
+		delete this.canvasElements[elementUuid];
 	}
+	
+	return elementUuid;
 };
