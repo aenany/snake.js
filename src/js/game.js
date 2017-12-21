@@ -13,13 +13,15 @@ function game() {
     }
     if(py>tc-1) {
         py= 0;
-    }
-    ctx.fillStyle="black";
-    ctx.fillRect(0,0,canv.width,canv.height);
- 
-    ctx.fillStyle="lime";
+	}
+
+	gameRenderer.setBackgroundColor('#000000');
+	
+    gameRenderer.fillEntireCanvas("#000000");
+    
+    gameRenderer.ctx.fillStyle="lime";
     for(var i=0;i<trail.length;i++) {
-        ctx.fillRect(trail[i].x*gs,trail[i].y*gs,gs-2,gs-2);
+        gameRenderer.ctx.fillRect(trail[i].x*gs,trail[i].y*gs,gs-2,gs-2);
         if(trail[i].x==px && trail[i].y==py) {
             tail = 5;
         }
@@ -34,6 +36,6 @@ function game() {
         ax=Math.floor(Math.random()*tc);
         ay=Math.floor(Math.random()*tc);
     }
-    ctx.fillStyle="red";
-    ctx.fillRect(ax*gs,ay*gs,gs-2,gs-2);
+    gameRenderer.ctx.fillStyle="red";
+    gameRenderer.ctx.fillRect(ax*gs,ay*gs,gs-2,gs-2);
 }

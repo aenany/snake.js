@@ -1,4 +1,5 @@
 var gameState = null;
+var gameRenderer = null;
 
 var px = py = 10;
 var gs = tc = 20;
@@ -7,10 +8,12 @@ var xv = yv = 0;
 var trail = [];
 var tail = 5;
 
+
 window.onload = function () {
-    canv = document.getElementById("snakeCanvas");
-    ctx = canv.getContext("2d");
-    document.addEventListener("keydown", keyPush);
+    var gameCanvas = document.getElementById("snakeCanvas");
+    ctx = gameCanvas.getContext("2d");
+    document.addEventListener("keydown", KeyboardManager);
+    gameRenderer = new Renderer();
     gameState = setInterval(game, 1000 / 15);
 };
 
