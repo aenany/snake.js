@@ -11,6 +11,7 @@ function Renderer() {
 	this.canvasHeight = this.canvas.height;
 
 	this.canvasBackgroundColor = null;
+	this.canvasInverseBackgroundColor = null;
 
 	this.canvasElements = {};
 }

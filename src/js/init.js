@@ -14,5 +14,5 @@ window.onload = function () {
     ctx = gameCanvas.getContext("2d");
     document.addEventListener("keydown", KeyboardManager);
     gameRenderer = new Renderer();
-    gameState = setInterval(game, 1000 / 15);
+    gameState = setInterval(Game, 1000 / 15);
 };

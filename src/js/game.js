@@ -1,4 +1,4 @@
-function game() {
+function Game() {
 
     px += xv;
     py += yv;
@@ -42,7 +42,9 @@ function game() {
         ax = Math.floor(Math.random() * tc);
         ay = Math.floor(Math.random() * tc);
     }
-    
+
     gameRenderer.ctx.fillStyle = "red";
     gameRenderer.ctx.fillRect(ax * gs, ay * gs, gs - 2, gs - 2);
 }
+
+
