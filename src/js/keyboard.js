@@ -20,11 +20,13 @@ function KeyboardManager(evt) {
 
             if (gameState !== null) {
                 clearInterval(gameState);
-                gameRenderer.pauseTextId = gameRenderer.drawText('Game Paused', 'gold', gameRenderer.canvasWidth - 100, gameRenderer.canvasHeight - 10, true);
+                gameRenderer.pauseTextId = gameRenderer.drawText('Game Paused', 'gold', gameRenderer.screenWidth / 2, gameRenderer.screenHeight / 2, true);
+                gameRenderer.snakeImageId = gameRenderer.drawImage('./img/snake_menu.gif', 0, 0, 349, 523, true);
                 gameState = null;
             } else {
                 gameState = setInterval(Game, gameFPS);
                 gameRenderer.clearElement(gameRenderer.pauseTextId);
+                gameRenderer.clearElement(gameRenderer.snakeImageId);
             }
 
             break;

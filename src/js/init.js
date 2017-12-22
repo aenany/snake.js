@@ -18,3 +18,8 @@ window.onload = function () {
     gameRenderer = new Renderer();
     gameState = setInterval(Game, gameFPS);
 };
+
+window.onresize = function () {
+    gameRenderer.setCanvasSize(window.innerWidth - 20,  window.innerHeight - 20);
+    gameRenderer.fillEntireCanvas('#000000');
+};

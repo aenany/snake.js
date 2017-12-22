@@ -1,5 +1,11 @@
 function Renderer() {
 	this.canvas = document.getElementById("snakeCanvas");
+	
+	this.screenWidth = null;
+	this.screenHeight = null;	
+
+	this.setCanvasSize(window.innerWidth - 20,  window.innerHeight - 20);
+
 	this.ctx = this.canvas.getContext("2d");
 
 	this.fontHeight = 15;
@@ -15,6 +21,17 @@ function Renderer() {
 
 	this.canvasElements = {};
 }
+
+Renderer.prototype.setCanvasSize = function(width, height) {
+	var currentRenderer = this;
+
+	this.screenWidth = width;
+	this.screenHeight = height;
+
+	this.canvas.setAttribute('width', this.screenWidth);
+	this.canvas.setAttribute('height', this.screenHeight);
+
+};
 
 Renderer.prototype.fillEntireCanvas = function (color) {
 	this.canvasBackgroundColor = color;
@@ -37,14 +54,13 @@ Renderer.prototype.setBackgroundColor = function (color) {
 
 Renderer.prototype.drawText = function (text, color, xCoord, yCoord, store) {
 	var currentRenderer = this;
+	var elementUuid = 'text_' + generateUUIDv4();
 
 	this.ctx.fillStyle = color;
 
 	this.ctx.fillText(text, xCoord, yCoord);
 
 	if (store) {
-
-		var elementUuid = generateUUIDv4();
 
 		var dimensions = {
 			width: parseFloat(this.ctx.measureText(text).width),
@@ -55,14 +71,44 @@ Renderer.prototype.drawText = function (text, color, xCoord, yCoord, store) {
 
 		this.canvasElements[elementUuid] = dimensions;
 
-		return elementUuid;
-
 	}
 
+	return elementUuid;
+
+};
+
+Renderer.prototype.drawImage = function (imagePath, xCoord, yCoord, dWidth, dHeight, store) {
+	var currentRenderer = this;
+
+	var elementUuid = 'image_ ' + generateUUIDv4();
+
+	var imageElement = document.createElement('img');
+	imageElement.setAttribute('id', elementUuid);
+	imageElement.setAttribute('src', imagePath);
+
+	this.canvas.appendChild(imageElement);	
+
+	var image = document.getElementById(elementUuid);
+
+	this.ctx.drawImage(image, xCoord, yCoord, dWidth, dHeight);
+
+	if(store) {
+		var dimensions = {
+			width: dWidth,
+			height: dHeight,
+			xCoord: xCoord,
+			yCoord: yCoord
+		};
+
+		this.canvasElements[elementUuid] = dimensions;
+
+		return elementUuid;
+	}
 };
 
 Renderer.prototype.drawRectangle = function (color, xCoord, yCoord, width, height, store) {
 	var currentRenderer = this;
+	var elementUuid = generateUUIDv4();
 
 	this.ctx.fillStyle = color;
 
@@ -76,13 +122,12 @@ Renderer.prototype.drawRectangle = function (color, xCoord, yCoord, width, heigh
 			yCoord: yCoord
 		};
 
-		var elementUuid = generateUUIDv4();
 
 		this.canvasElements[elementUuid] = dimensions;
-
-		return elementUuid;
-
 	}
+
+	return elementUuid;
+
 
 };
 

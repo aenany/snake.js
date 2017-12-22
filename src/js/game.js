@@ -3,15 +3,15 @@ function Game() {
     px += xv;
     py += yv;
     if (px < 0) {
-        px = tc - 1;
+        px = gameRenderer.screenWidth / 20;
     }
-    if (px > tc - 1) {
+    if (px > gameRenderer.screenWidth / 20) {
         px = 0;
     }
     if (py < 0) {
-        py = tc - 1;
+        py = (gameRenderer.screenHeight / 20) - 1;
     }
-    if (py > tc - 1) {
+    if (py > (gameRenderer.screenHeight / 20) - 1) {
         py = 0;
     }
 
@@ -38,8 +38,8 @@ function Game() {
 
     if (ax == px && ay == py) {
         tail++;
-        ax = Math.floor(Math.random() * tc);
-        ay = Math.floor(Math.random() * tc);
+        ax = Math.floor(Math.random() * (gameRenderer.screenWidth / 20));
+        ay = Math.floor(Math.random() * (gameRenderer.screenHeight / 20));
         gameScore += 100;
     }
 
