@@ -15,7 +15,6 @@ var tail = 5;
 window.onload = function () {
     var gameCanvas = document.getElementById("snakeCanvas");
     ctx = gameCanvas.getContext("2d");
-    document.addEventListener('keydown', KeyboardManager);    
     gameRenderer = new Renderer();
     gameState = setInterval(Game, gameFPS);
 };
