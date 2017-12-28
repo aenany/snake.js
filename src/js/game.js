@@ -13,8 +13,8 @@ function Game() {
     }
     if (py > (gameRenderer.screenHeight / 20) - 1) {
         py = 0;
-    }
-
+    }    
+    
     gameRenderer.setBackgroundColor('#000000');
 
     gameRenderer.fillEntireCanvas("#000000");    
@@ -48,3 +48,7 @@ function Game() {
 
     gameRenderer.drawRectangle('red', ax * gs, ay * gs, gs - 2, gs - 2, false);
 }
+
+Game.prototype.update = function () {
+
+};
