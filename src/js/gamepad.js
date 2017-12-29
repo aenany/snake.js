@@ -1,1 +1,530 @@
-!function(){"use strict";function e(e,t){var n=[];return Object.keys(t).forEach(function(a){t[a]===e?n.push(a):Array.isArray(t[a])&&-1!==t[a].indexOf(e)&&n.push(a)}),n}function t(){this._events={gamepad:[],axes:[],keyboard:{}},this._handlers={gamepad:{connect:null,disconnect:null}},this._keyMapping={gamepad:{button_1:0,button_2:1,button_3:2,button_4:3,shoulder_top_left:4,shoulder_top_right:5,shoulder_bottom_left:6,shoulder_bottom_right:7,select:8,start:9,stick_button_left:10,stick_button_right:11,d_pad_up:12,d_pad_down:13,d_pad_left:14,d_pad_right:15,vendor:16},axes:{stick_axis_left:[0,2],stick_axis_right:[2,4]},keyboard:{button_1:32,start:27,d_pad_up:[38,87],d_pad_down:[40,83],d_pad_left:[37,65],d_pad_right:[39,68]}},this._threshold=.3,this._listeners=[],this._handleKeyboardEventListener=this._handleKeyboardEventListener.bind(this),this.resume()}var n,a,s=void 0!==window.navigator.getGamepads;"undefined"!==String(typeof window)&&["webkit","moz"].forEach(function(e){n=n||window.requestAnimationFrame||window[e+"RequestAnimationFrame"]||null,a=a||window.cancelAnimationFrame||window[e+"CancelAnimationFrame"]||null}),t.prototype._handleGamepadConnected=function(e){this._handlers.gamepad.connect&&this._handlers.gamepad.connect({index:e})},t.prototype._handleGamepadDisconnected=function(e){this._handlers.gamepad.disconnect&&this._handlers.gamepad.disconnect({index:e})},t.prototype._handleGamepadEventListener=function(t){var n=this;t&&t.connected&&t.buttons.forEach(function(a,s){var o=e(s,n._keyMapping.gamepad);o&&o.forEach(function(e){a.pressed?(n._events.gamepad[t.index][e]||(n._events.gamepad[t.index][e]={pressed:!0,hold:!1,released:!1,player:t.index}),n._events.gamepad[t.index][e].value=a.value):!a.pressed&&n._events.gamepad[t.index][e]&&(n._events.gamepad[t.index][e].released=!0,n._events.gamepad[t.index][e].hold=!1)})})},t.prototype._handleGamepadAxisEventListener=function(e){var t=this;e&&e.connected&&Object.keys(t._keyMapping.axes).forEach(function(n){var a=Array.prototype.slice.apply(e.axes,t._keyMapping.axes[n]);Math.abs(a[0])>t._threshold||Math.abs(a[1])>t._threshold?t._events.axes[e.index][n]={pressed:!t._events.axes[e.index][n],hold:!!t._events.axes[e.index][n],released:!1,value:a}:t._events.axes[e.index][n]&&(t._events.axes[e.index][n]={pressed:!1,hold:!1,released:!0,value:a})})},t.prototype._handleKeyboardEventListener=function(t){var n=this,a=e(t.keyCode,n._keyMapping.keyboard);a&&a.forEach(function(e){"keydown"!==t.type||n._events.keyboard[e]?"keyup"===t.type&&n._events.keyboard[e]&&(n._events.keyboard[e].released=!0,n._events.keyboard[e].hold=!1):n._events.keyboard[e]={pressed:!0,hold:!1,released:!1}})},t.prototype._handleEvent=function(e,t,n){t[e].pressed?(this.trigger("press",e,t[e].value,n),t[e].pressed=!1,t[e].hold=!0):t[e].hold?this.trigger("hold",e,t[e].value,n):t[e].released&&(this.trigger("release",e,t[e].value,n),delete t[e])},t.prototype._loop=function(){var e,t=this,a=!!s&&window.navigator.getGamepads();if(a){for(e=0;e<4;e+=1)a[e]?(t._events.gamepad[e]||(t._handleGamepadConnected(e),t._events.gamepad[e]={},t._events.axes[e]={}),t._handleGamepadEventListener(a[e]),t._handleGamepadAxisEventListener(a[e])):t._events.gamepad[e]&&(t._handleGamepadDisconnected(e),t._events.gamepad[e]=null,t._events.axes[e]=null);t._events.gamepad.forEach(function(e,n){e&&Object.keys(e).forEach(function(a){t._handleEvent(a,e,n)})}),t._events.axes.forEach(function(e,n){e&&Object.keys(e).forEach(function(a){t._handleEvent(a,e,n)})})}Object.keys(t._events.keyboard).forEach(function(e){t._handleEvent(e,t._events.keyboard,"keyboard")}),t._requestAnimation&&(t._requestAnimation=n(t._loop.bind(t)))},t.prototype.on=function(e,t,n,a){var s=this;-1!==Object.keys(this._handlers.gamepad).indexOf(e)&&"function"==typeof t?(this._handlers.gamepad[e]=t,this._events.gamepad=[]):("string"==typeof e&&e.match(/\s+/)&&(e=e.split(/\s+/g)),"string"==typeof t&&t.match(/\s+/)&&(t=t.split(/\s+/g)),Array.isArray(e)?e.forEach(function(e){s.on(e,t,n,a)}):Array.isArray(t)?t.forEach(function(t){s.on(e,t,n,a)}):this._listeners.push({type:e,button:t,callback:n,options:a}))},t.prototype.off=function(e,t){var n=this;"string"==typeof e&&e.match(/\s+/)&&(e=e.split(/\s+/g)),"string"==typeof t&&t.match(/\s+/)&&(t=t.split(/\s+/g)),Array.isArray(e)?e.forEach(function(e){n.off(e,t)}):Array.isArray(t)?t.forEach(function(t){n.off(e,t)}):this._listeners=this._listeners.filter(function(n){return n.type!==e&&n.button!==t})},t.prototype.setCustomMapping=function(e,t){if(void 0===this._keyMapping[e])throw new Error('The device "'+e+'" is not supported through gamepad.js');this._keyMapping[e]=t},t.prototype.setGlobalThreshold=function(e){this._threshold=parseFloat(e)},t.prototype.trigger=function(e,t,n,a){this._listeners&&this._listeners.forEach(function(s){s.type===e&&s.button===t&&s.callback({type:s.type,button:s.button,value:n,player:a,event:s,timestamp:Date.now()})})},t.prototype.pause=function(){a(this._requestAnimation),this._requestAnimation=null,document.removeEventListener("keydown",this._handleKeyboardEventListener),document.removeEventListener("keyup",this._handleKeyboardEventListener)},t.prototype.resume=function(){this._requestAnimation=n(this._loop.bind(this)),document.addEventListener("keydown",this._handleKeyboardEventListener),document.addEventListener("keyup",this._handleKeyboardEventListener)},t.prototype.destroy=function(){this.pause(),delete this._listeners},"function"==typeof define&&void 0!==define.amd?define([],function(){return t}):"object"==typeof module&&void 0!==module.exports?module.exports=t:window.Gamepad=t}();
+/*!
+ * gamepad.js v0.0.5-alpha
+ * https://github.com/neogeek/gamepad.js
+ *
+ * Copyright (c) 2017 Scott Doxey
+ * Released under the MIT license.
+ */
+
+'use strict';
+
+var _requestAnimationFrame,
+	_cancelAnimationFrame,
+	hasGamepadSupport = window.navigator.getGamepads !== undefined;
+
+if (String(typeof window) !== 'undefined') {
+
+	['webkit', 'moz'].forEach(function (key) {
+		_requestAnimationFrame = _requestAnimationFrame || window.requestAnimationFrame || window[key + 'RequestAnimationFrame'] || null;
+		_cancelAnimationFrame = _cancelAnimationFrame || window.cancelAnimationFrame || window[key + 'CancelAnimationFrame'] || null;
+	});
+
+}
+
+function findKeyMapping(index, mapping) {
+
+	var results = [];
+
+	Object.keys(mapping).forEach(function (key) {
+
+		if (mapping[key] === index) {
+
+			results.push(key);
+
+		} else if (Array.isArray(mapping[key]) && mapping[key].indexOf(index) !== -1) {
+
+			results.push(key);
+
+		}
+
+	});
+
+	return results;
+
+}
+
+function Gamepad() {
+
+	this._events = {
+		gamepad: [],
+		axes: [],
+		keyboard: {}
+	};
+
+	this._handlers = {
+		gamepad: {
+			connect: null,
+			disconnect: null
+		}
+	};
+
+	this._keyMapping = {
+		gamepad: {
+			'button_1': 0,
+			'button_2': 1,
+			'button_3': 2,
+			'button_4': 3,
+			'shoulder_top_left': 4,
+			'shoulder_top_right': 5,
+			'shoulder_bottom_left': 6,
+			'shoulder_bottom_right': 7,
+			'select': 8,
+			'start': 9,
+			'stick_button_left': 10,
+			'stick_button_right': 11,
+			'd_pad_up': 12,
+			'd_pad_down': 13,
+			'd_pad_left': 14,
+			'd_pad_right': 15,
+			'vendor': 16
+		},
+		axes: {
+			'stick_axis_left': [0, 2],
+			'stick_axis_right': [2, 4]
+		},
+		keyboard: {
+			'button_1': 32,
+			'start': 27,
+			'd_pad_up': [38, 87],
+			'd_pad_down': [40, 83],
+			'd_pad_left': [37, 65],
+			'd_pad_right': [39, 68]
+		}
+	};
+
+	this._threshold = 0.3;
+
+	this._listeners = [];
+
+	this._handleKeyboardEventListener = this._handleKeyboardEventListener.bind(this);
+
+	this.resume();
+
+}
+
+Gamepad.prototype._handleGamepadConnected = function (index) {
+
+	if (this._handlers.gamepad.connect) {
+
+		this._handlers.gamepad.connect({
+			index: index
+		});
+
+	}
+
+};
+
+Gamepad.prototype._handleGamepadDisconnected = function (index) {
+
+	if (this._handlers.gamepad.disconnect) {
+
+		this._handlers.gamepad.disconnect({
+			index: index
+		});
+
+	}
+
+};
+
+Gamepad.prototype._handleGamepadEventListener = function (controller) {
+
+	var self = this;
+
+	if (controller && controller.connected) {
+
+		controller.buttons.forEach(function (button, index) {
+
+			var keys = findKeyMapping(index, self._keyMapping.gamepad);
+
+			if (keys) {
+
+				keys.forEach(function (key) {
+
+					if (button.pressed) {
+
+						if (!self._events.gamepad[controller.index][key]) {
+
+							self._events.gamepad[controller.index][key] = {
+								pressed: true,
+								hold: false,
+								released: false,
+								player: controller.index
+							};
+
+						}
+
+						self._events.gamepad[controller.index][key].value = button.value;
+
+					} else if (!button.pressed && self._events.gamepad[controller.index][key]) {
+
+						self._events.gamepad[controller.index][key].released = true;
+						self._events.gamepad[controller.index][key].hold = false;
+
+					}
+
+				});
+
+			}
+
+		});
+
+	}
+
+};
+
+Gamepad.prototype._handleGamepadAxisEventListener = function (controller) {
+
+	var self = this;
+
+	if (controller && controller.connected) {
+
+		Object.keys(self._keyMapping.axes).forEach(function (key) {
+
+			var axes = Array.prototype.slice.apply(controller.axes, self._keyMapping.axes[key]);
+
+			if (Math.abs(axes[0]) > self._threshold || Math.abs(axes[1]) > self._threshold) {
+
+				self._events.axes[controller.index][key] = {
+					pressed: self._events.axes[controller.index][key] ? false : true,
+					hold: self._events.axes[controller.index][key] ? true : false,
+					released: false,
+					value: axes
+				};
+
+			} else if (self._events.axes[controller.index][key]) {
+
+				self._events.axes[controller.index][key] = {
+					pressed: false,
+					hold: false,
+					released: true,
+					value: axes
+				};
+
+			}
+
+		});
+
+	}
+
+};
+
+Gamepad.prototype._handleKeyboardEventListener = function (e) {
+
+	var self = this,
+		keys = findKeyMapping(e.keyCode, self._keyMapping.keyboard);
+
+	if (keys) {
+
+		keys.forEach(function (key) {
+
+			if (e.type === 'keydown' && !self._events.keyboard[key]) {
+
+				self._events.keyboard[key] = {
+					pressed: true,
+					hold: false,
+					released: false
+				};
+
+			} else if (e.type === 'keyup' && self._events.keyboard[key]) {
+
+				self._events.keyboard[key].released = true;
+				self._events.keyboard[key].hold = false;
+
+			}
+
+		});
+
+	}
+
+};
+
+Gamepad.prototype._handleEvent = function (key, events, player) {
+
+	if (events[key].pressed) {
+
+		this.trigger('press', key, events[key].value, player);
+
+		events[key].pressed = false;
+		events[key].hold = true;
+
+	} else if (events[key].hold) {
+
+		this.trigger('hold', key, events[key].value, player);
+
+	} else if (events[key].released) {
+
+		this.trigger('release', key, events[key].value, player);
+
+		delete events[key];
+
+	}
+
+};
+
+Gamepad.prototype._loop = function () {
+
+	var self = this,
+		gamepads = hasGamepadSupport ? window.navigator.getGamepads() : false,
+		length = 4, // length = gamepads.length;
+		i;
+
+	if (gamepads) {
+
+		for (i = 0; i < length; i = i + 1) {
+
+			if (gamepads[i]) {
+
+				if (!self._events.gamepad[i]) {
+
+					self._handleGamepadConnected(i);
+
+					self._events.gamepad[i] = {};
+					self._events.axes[i] = {};
+
+				}
+
+				self._handleGamepadEventListener(gamepads[i]);
+				self._handleGamepadAxisEventListener(gamepads[i]);
+
+			} else if (self._events.gamepad[i]) {
+
+				self._handleGamepadDisconnected(i);
+
+				self._events.gamepad[i] = null;
+				self._events.axes[i] = null;
+
+			}
+
+		}
+
+		self._events.gamepad.forEach(function (gamepad, player) {
+
+			if (gamepad) {
+
+				Object.keys(gamepad).forEach(function (key) {
+
+					self._handleEvent(key, gamepad, player);
+
+				});
+
+			}
+
+		});
+
+		self._events.axes.forEach(function (gamepad, player) {
+
+			if (gamepad) {
+
+				Object.keys(gamepad).forEach(function (key) {
+
+					self._handleEvent(key, gamepad, player);
+
+				});
+
+			}
+
+		});
+
+	}
+
+	Object.keys(self._events.keyboard).forEach(function (key) {
+
+		self._handleEvent(key, self._events.keyboard, 'keyboard');
+
+	});
+
+	if (self._requestAnimation) {
+
+		self._requestAnimation = _requestAnimationFrame(self._loop.bind(self));
+
+	}
+
+};
+
+Gamepad.prototype.on = function (type, button, callback, options) {
+
+	var self = this;
+
+	if (Object.keys(this._handlers.gamepad).indexOf(type) !== -1 && typeof button === 'function') {
+
+		this._handlers.gamepad[type] = button;
+
+		this._events.gamepad = [];
+
+	} else {
+
+		if (typeof type === "string" && type.match(/\s+/)) {
+
+			type = type.split(/\s+/g);
+
+		}
+
+		if (typeof button === "string" && button.match(/\s+/)) {
+
+			button = button.split(/\s+/g);
+
+		}
+
+		if (Array.isArray(type)) {
+
+			type.forEach(function (type) {
+
+				self.on(type, button, callback, options);
+
+			});
+
+		} else if (Array.isArray(button)) {
+
+			button.forEach(function (button) {
+
+				self.on(type, button, callback, options);
+
+			});
+
+		} else {
+
+			this._listeners.push({
+				type: type,
+				button: button,
+				callback: callback,
+				options: options
+			});
+
+		}
+
+	}
+
+};
+
+Gamepad.prototype.off = function (type, button) {
+
+	var self = this;
+
+	if (typeof type === "string" && type.match(/\s+/)) {
+
+		type = type.split(/\s+/g);
+
+	}
+
+	if (typeof button === "string" && button.match(/\s+/)) {
+
+		button = button.split(/\s+/g);
+
+	}
+
+	if (Array.isArray(type)) {
+
+		type.forEach(function (type) {
+
+			self.off(type, button);
+
+		});
+
+	} else if (Array.isArray(button)) {
+
+		button.forEach(function (button) {
+
+			self.off(type, button);
+
+		});
+
+	} else {
+
+		this._listeners = this._listeners.filter(function (listener) {
+
+			return listener.type !== type && listener.button !== button;
+
+		});
+
+	}
+
+};
+
+Gamepad.prototype.setCustomMapping = function (device, config) {
+
+	if (this._keyMapping[device] !== undefined) {
+
+		this._keyMapping[device] = config;
+
+	} else {
+
+		throw new Error('The device "' + device + '" is not supported through gamepad.js');
+
+	}
+
+};
+
+Gamepad.prototype.setGlobalThreshold = function (num) {
+
+	this._threshold = parseFloat(num);
+
+};
+
+Gamepad.prototype.trigger = function (type, button, value, player) {
+
+	if (this._listeners) {
+
+		this._listeners.forEach(function (listener) {
+
+			if (listener.type === type && listener.button === button) {
+
+				listener.callback({
+					type: listener.type,
+					button: listener.button,
+					value: value,
+					player: player,
+					event: listener,
+					timestamp: Date.now()
+				});
+
+			}
+
+		});
+
+	}
+
+};
+
+Gamepad.prototype.pause = function () {
+
+	_cancelAnimationFrame(this._requestAnimation);
+
+	this._requestAnimation = null;
+
+	document.removeEventListener('keydown', this._handleKeyboardEventListener);
+	document.removeEventListener('keyup', this._handleKeyboardEventListener);
+
+};
+
+Gamepad.prototype.resume = function () {
+
+	this._requestAnimation = _requestAnimationFrame(this._loop.bind(this));
+
+	document.addEventListener('keydown', this._handleKeyboardEventListener);
+	document.addEventListener('keyup', this._handleKeyboardEventListener);
+
+};
+
+Gamepad.prototype.destroy = function () {
+
+	this.pause();
+
+	delete this._listeners;
+
+};
+
+if (typeof define === 'function' && define.amd !== undefined) {
+
+	define([], function () {
+		return Gamepad;
+	});
+
+} else if (typeof module === 'object' && module.exports !== undefined) {
+
+	module.exports = Gamepad;
+
+} else {
+
+	window.Gamepad = Gamepad;
+
+}

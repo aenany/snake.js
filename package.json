@@ -1,0 +1,37 @@
+{
+  "name": "snake.js",
+  "version": "0.0.1",
+  "description": "Snake JS - Canvas/JavaScript based Snake Game.",
+  "main": "main.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "electron ."
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/aenany/snakejs.git"
+  },
+  "keywords": [
+    "snake",
+    "canvas",
+    "javascript",
+    "html5",
+    "electron",
+    "web",
+    "classic",
+    "game",
+    "gaming",
+    "score",
+    "gamepad",
+    "xbox",
+    "snes",
+    "playstation",
+    "entertainment"
+  ],
+  "author": "A Enany",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/aenany/snakejs/issues"
+  },
+  "homepage": "https://github.com/aenany/snakejs#readme"
+}
