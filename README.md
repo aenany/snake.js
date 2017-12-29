@@ -23,6 +23,10 @@ Features:
 How to run:
 
 As a Desktop Application (recommended):
+- Windows -- Work in Progress
+
+- Mac -- Work in Progress
+
 - Linux
 1. Clone the Repository.
 2. Navigate to the `dist` folder.
