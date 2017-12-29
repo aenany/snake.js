@@ -1,0 +1,71 @@
+{
+  "name": "snake.js",
+  "version": "0.0.1",
+  "description": "Snake JS - Canvas/JavaScript based Snake Game.",
+  "main": "main.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "electron .",
+    "pack": "build --dir",
+    "dist": "build",
+    "postinstall": "install-app-deps"
+  },
+  "build": {
+    "appId": "snakejs",
+    "dmg": {
+      "contents": [
+        {
+          "x": 110,
+          "y": 150
+        },
+        {
+          "x": 240,
+          "y": 150,
+          "type": "link",
+          "path": "/Applications"
+        }
+      ]
+    },
+    "linux": {
+      "target": [
+        "AppImage",
+        "deb"
+      ]
+    },
+    "win": {
+      "target": "NSIS",
+      "icon": "build/icon.ico"
+    }
+  },  
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/aenany/snakejs.git"
+  },
+  "keywords": [
+    "snake",
+    "canvas",
+    "javascript",
+    "html5",
+    "electron",
+    "web",
+    "classic",
+    "game",
+    "gaming",
+    "score",
+    "gamepad",
+    "xbox",
+    "snes",
+    "playstation",
+    "entertainment"
+  ],
+  "author": "A Enany",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/aenany/snakejs/issues"
+  },
+  "homepage": "https://github.com/aenany/snakejs#readme",
+  "devDependencies": {
+    "electron": "^1.7.10",
+    "electron-builder": "^19.49.2"
+  }
+}

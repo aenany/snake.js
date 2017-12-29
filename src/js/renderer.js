@@ -1,10 +1,10 @@
 function Renderer() {
 	this.canvas = document.getElementById("snakeCanvas");
-	
-	this.screenWidth = null;
-	this.screenHeight = null;	
 
-	this.setCanvasSize(window.innerWidth - 20,  window.innerHeight - 20);
+	this.screenWidth = null;
+	this.screenHeight = null;
+
+	this.setCanvasSize(window.innerWidth - 20, window.innerHeight - 20);
 
 	this.ctx = this.canvas.getContext("2d");
 
@@ -22,7 +22,7 @@ function Renderer() {
 	this.canvasElements = {};
 }
 
-Renderer.prototype.setCanvasSize = function(width, height) {
+Renderer.prototype.setCanvasSize = function (width, height) {
 	var currentRenderer = this;
 
 	this.screenWidth = width;
@@ -86,13 +86,13 @@ Renderer.prototype.drawImage = function (imagePath, xCoord, yCoord, dWidth, dHei
 	imageElement.setAttribute('id', elementUuid);
 	imageElement.setAttribute('src', imagePath);
 
-	this.canvas.appendChild(imageElement);	
+	this.canvas.appendChild(imageElement);
 
 	var image = document.getElementById(elementUuid);
 
 	this.ctx.drawImage(image, xCoord, yCoord, dWidth, dHeight);
 
-	if(store) {
+	if (store) {
 		var dimensions = {
 			width: dWidth,
 			height: dHeight,

@@ -11,7 +11,7 @@ function invertColor(hex) {
         len = len || 2;
         var zeros = new Array(len).join('0');
         return (zeros + str).slice(-len);
-    }    
+    }
 
     if (hex.indexOf('#') === 0) {
         hex = hex.slice(1);
@@ -30,4 +30,3 @@ function invertColor(hex) {
     // pad each with zeros and return
     return '#' + padZero(r) + padZero(g) + padZero(b);
 }
-
