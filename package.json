@@ -2,7 +2,7 @@
   "name": "snake.js",
   "productName": "snake.js",
   "version": "1.0.0",
-  "description": "My Electron application description",
+  "description": "Canvas/JavaScript based Snake Game",
   "main": "src/index.js",
   "scripts": {
     "start": "electron-forge start",
