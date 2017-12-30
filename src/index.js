@@ -5,10 +5,10 @@ const url = require('url');
 let win;
 
 function createWindow () {
-  win = new BrowserWindow({width: 1024, height: 768});
+  win = new BrowserWindow({width: 1280, height: 1024});
 
   win.loadURL(url.format({
-    pathname: path.join(__dirname, './src/snake.html'),
+    pathname: path.join(__dirname, './index.html'),
     protocol: 'file:',
     slashes: true
   }));

@@ -15,7 +15,7 @@ gamepadAPI.on('connect', e => {
 
     var gamePadInfo = navigator.getGamepads();
 
-    for (gamepad in gamePadInfo) {
+    for (var gamepad in gamePadInfo) {
         var currentGamePad = gamePadInfo[gamepad];
 
         if (currentGamePad && currentGamePad.id === 'HuiJia  USB GamePad (Vendor: 0e8f Product: 3013)') {
