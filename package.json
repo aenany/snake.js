@@ -1,8 +1,8 @@
 {
   "name": "snake.js",
   "productName": "snake.js",
-  "version": "1.0.0",
-  "description": "Canvas/JavaScript based Snake Game",
+  "version": "0.0.1",
+  "description": "Snake Game powered by JavaScript/Canvas",
   "main": "src/index.js",
   "scripts": {
     "start": "electron-forge start",
@@ -12,7 +12,7 @@
     "lint": "eslint src --color"
   },
   "keywords": [],
-  "author": "deluxe",
+  "author": "A. Enany",
   "license": "MIT",
   "config": {
     "forge": {
@@ -25,7 +25,7 @@
         ],
         "linux": [
           "deb",
-          "rpm"
+          "electron-forge-maker-appimage"
         ]
       },
       "electronPackagerConfig": {
@@ -55,6 +55,7 @@
     "babel-preset-env": "^1.6.1",
     "babel-preset-react": "^6.24.1",
     "electron-forge": "^4.1.7",
+    "electron-forge-maker-appimage": "^19.30.3",
     "electron-prebuilt-compile": "1.8.2-beta.3",
     "eslint": "^3.19.0",
     "eslint-config-airbnb": "^15.1.0",
