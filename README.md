@@ -2,10 +2,10 @@
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 
-<center>
+<p align="center">
 	<img src="./src/img/snake-js.png" width="222" height="267" />
 	<img src="./src/img/screen1.png" height="267" />
-</center>
+</p>
 
 ## Features
 
