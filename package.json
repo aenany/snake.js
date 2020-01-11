@@ -1,66 +1,57 @@
 {
-  "name": "snake.js",
-  "productName": "snake.js",
-  "version": "0.0.1",
-  "description": "Snake Game powered by JavaScript/Canvas",
-  "main": "src/index.js",
-  "scripts": {
-    "start": "electron-forge start",
-    "package": "electron-forge package",
-    "make": "electron-forge make",
-    "publish": "electron-forge publish",
-    "lint": "eslint src --color"
-  },
-  "keywords": [],
-  "author": "A. Enany",
-  "license": "MIT",
-  "config": {
-    "forge": {
-      "make_targets": {
-        "win32": [
-          "squirrel"
-        ],
-        "darwin": [
-          "zip"
-        ],
-        "linux": [
-          "deb",
-          "electron-forge-maker-appimage"
-        ]
-      },
-      "electronPackagerConfig": {
-        "packageManager": "npm"
-      },
-      "electronWinstallerConfig": {
-        "name": "snake.js"
-      },
-      "electronInstallerDebian": {},
-      "electronInstallerRedhat": {},
-      "github_repository": {
-        "owner": "",
-        "name": ""
-      },
-      "windowsStoreConfig": {
-        "packageName": "",
-        "name": "snake.js"
-      }
-    }
-  },
-  "dependencies": {
-    "electron-compile": "^6.4.2",
-    "electron-squirrel-startup": "^1.0.0"
-  },
-  "devDependencies": {
-    "babel-plugin-transform-async-to-generator": "^6.24.1",
-    "babel-preset-env": "^1.6.1",
-    "babel-preset-react": "^6.24.1",
-    "electron-forge": "^4.1.7",
-    "electron-forge-maker-appimage": "^19.30.3",
-    "electron-prebuilt-compile": "1.8.2-beta.3",
-    "eslint": "^3.19.0",
-    "eslint-config-airbnb": "^15.1.0",
-    "eslint-plugin-import": "^2.8.0",
-    "eslint-plugin-jsx-a11y": "^5.1.1",
-    "eslint-plugin-react": "^7.5.1"
-  }
+	"author": "A. Enany",
+	"build": {
+		"appId": "com.games.snakejs",
+		"asar": false,
+		"linux": {
+			"target": [
+				"appimage",
+				"deb",
+				"rpm",
+				"freebsd",
+				"pacman",
+				"apk",
+				"zip"
+			],
+			"icon": "icon.png",
+			"synopsis": "Game",
+			"category": "Entertainment",
+			"desktop": {
+				"Name": "Snake.js",
+				"Type": "Game"
+			},
+			"maintainer": "https://github.com/aenany"
+		},
+		"publish": [{
+			"provider": "github",
+			"owner": "aenany",
+			"repo": "snake.js",
+			"vPrefixedTagName": true,
+			"protocol": "https",
+			"releaseType": "draft"
+		}]
+	},
+	"description": "Snake Game powered by JavaScript/Canvas",
+	"devDependencies": {
+		"electron": "5.0.3",
+		"electron-builder": "21.2.0"
+	},
+	"keywords": [],
+	"license": "MIT",
+	"main": "src/index.js",
+	"name": "snake.js",
+	"productName": "snake.js",
+	"repository": {
+		"type": "git",
+		"url": "https://github.com/aenany/snake.js/"
+	},
+	"scripts": {
+		"clean": "rm -rf dist/",
+		"dist": "DEBUG=electron-builder electron-builder",
+		"lint": "echo \"No linting configured\"",
+		"pack": "electron-builder --dir",		
+		"release": "DEBUG=electron-builder electron-builder publish",
+		"start": "npx electron src/index.js"		
+	},	
+	"version": "0.0.2"
 }
